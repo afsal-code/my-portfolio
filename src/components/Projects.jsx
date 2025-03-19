@@ -62,12 +62,18 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* View All Projects Button */}
       <div className="mt-12 flex justify-center">
-        <button className="bg-transparent border border-[#2e4a44] text-white px-6 py-2 rounded-full hover:bg-[#2e4a44] transition duration-300">
-          View All Projects
-        </button>
-      </div>
+  <a
+    href="https://github.com/afsal-code?tab=repositories"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <button className="bg-transparent border border-[#2e4a44] text-white px-6 py-2 rounded-full hover:bg-[#2e4a44] transition duration-300">
+      View All Projects
+    </button>
+  </a>
+</div>
+
     </div>
   );
 };
