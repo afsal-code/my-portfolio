@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import emailjs from 'emailjs-com';
 
-// Initialize EmailJS Public Key outside of the component
-emailjs.init('BqrcyIOV4NTe4iY1x');  // Replace with your EmailJS Public Key
+ emailjs.init('BqrcyIOV4NTe4iY1x');   
 
 const Contacts = () => {
   const form = useRef();
