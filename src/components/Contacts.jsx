@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 
 const Contacts = () => {
+  const form = useRef();
+
+  useEffect(() => {
+    emailjs.init('BqrcyIOV4NTe4iY1x'); // Initialize with your public key
+  }, []);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs.sendForm('service_49mypxb', 'template_uf2yd5v', form.current)
+      .then((result) => {
+        console.log('Email sent!', result.text);
+        alert('Message sent successfully!');
+        form.current.reset();
+      })
+      .catch((error) => {
+        console.error('Email send error:', error.text);
+        alert('Failed to send message. Please try again.');
+      });
+  };
+
   return (
     <div id="contacts" className="w-full h-screen bg-[#0f1a17] text-white p-10 flex items-center justify-center">
       <div className="w-full max-w-6xl h-[600px] bg-[#15231f] border border-[#2e4a44] rounded-xl grid grid-cols-1 md:grid-cols-2 overflow-hidden shadow-md">
@@ -23,20 +45,26 @@ const Contacts = () => {
         {/* Right Panel - Message Form */}
         <div className="p-10 bg-[#0f1a17] text-white flex flex-col justify-center border-l border-[#2e4a44]">
           <h2 className="text-2xl font-bold mb-6">Write A Message</h2>
-          <form className="flex flex-col gap-4">
+          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4">
             <input
               type="text"
+              name="name"
               placeholder="Your Name"
+              required
               className="p-3 rounded-md bg-[#1e2b26] border border-[#2e4a44] text-white focus:outline-none focus:ring-2 focus:ring-[#3e645d]"
             />
             <input
               type="email"
+              name="email"
               placeholder="Your Email"
+              required
               className="p-3 rounded-md bg-[#1e2b26] border border-[#2e4a44] text-white focus:outline-none focus:ring-2 focus:ring-[#3e645d]"
             />
             <textarea
+              name="message"
               placeholder="Your Message"
               rows="5"
+              required
               className="p-3 rounded-md bg-[#1e2b26] border border-[#2e4a44] text-white focus:outline-none focus:ring-2 focus:ring-[#3e645d]"
             ></textarea>
             <button

@@ -43,16 +43,17 @@ const Header = () => {
       <div className=" relative z-10 flex space-x-7 left-[1050px] mt-7">
         <a
           href="/resume.jpg"
-          download
+          download="resume.jpg"
           rel="noopener noreferrer"
           className="bg-green-600 text-white font-semibold px-6 py-2 rounded-3xl hover:bg-green-700 transition"
         >
           Download Resume
         </a>
 
-        <button className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-3xl hover:bg-gray-700 transition">
+
+        <a href='#projects' className="bg-gray-500 text-white font-semibold px-6 py-2 rounded-3xl hover:bg-gray-700 transition">
           View Projects
-        </button>
+        </a>
       </div>
 
     </div>
