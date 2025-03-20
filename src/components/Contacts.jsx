@@ -6,20 +6,20 @@ import emailjs from 'emailjs-com';
 const Contacts = () => {
   const form = useRef();
 
-  const sendEmail = (e) => {
-    e.preventDefault();
+  // const sendEmail = (e) => {
+  //   e.preventDefault();
 
-    emailjs.sendForm('service_49mypxb', 'template_uf2yd5v', form.current)
-      .then((result) => {
-        console.log('Email sent!', result.text);
-        alert('Message sent successfully!');
-        form.current.reset();
-      })
-      .catch((error) => {
-        console.error('Email send error:', error.text);
-        alert('Failed to send message. Please try again.');
-      });
-  };
+  //   emailjs.sendForm('service_49mypxb', 'template_uf2yd5v', form.current)
+  //     .then((result) => {
+  //       console.log('Email sent!', result.text);
+  //       alert('Message sent successfully!');
+  //       form.current.reset();
+  //     })
+  //     .catch((error) => {
+  //       console.error('Email send error:', error.text);
+  //       alert('Failed to send message. Please try again.');
+  //     });
+  // };
 
   return (
     <div id="contacts" className="w-full h-screen bg-[#0f1a17] text-white p-10 flex items-center justify-center">
