@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import emailjs from 'emailjs-com';
+// import emailjs from 'emailjs-com';
 
- emailjs.init('BqrcyIOV4NTe4iY1x');   
+//  emailjs.init('BqrcyIOV4NTe4iY1x');   
 
 const Contacts = () => {
   const form = useRef();
@@ -43,7 +43,8 @@ const Contacts = () => {
         {/* Right Panel - Message Form */}
         <div className="p-10 bg-[#0f1a17] text-white flex flex-col justify-center border-l border-[#2e4a44]">
           <h2 className="text-2xl font-bold mb-6">Write A Message</h2>
-          <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4">
+          {/* ref={form} onSubmit={sendEmail}  */}
+          <form className="flex flex-col gap-4">
             <input
               type="text"
               name="name"
