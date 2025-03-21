@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Skill = () => {
   const [selectedSkill, setSelectedSkill] = useState('Frontend');
+  const [isSectionVisible, setIsSectionVisible] = useState(false);
+  const [isTitleVisible, setIsTitleVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const titleRef = useRef(null);
+
+   useEffect(() => {
+    const sectionObserver = new IntersectionObserver(
+      ([entry]) => setIsSectionVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    const titleObserver = new IntersectionObserver(
+      ([entry]) => setIsTitleVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) sectionObserver.observe(sectionRef.current);
+    if (titleRef.current) titleObserver.observe(titleRef.current);
+
+    return () => {
+      if (sectionRef.current) sectionObserver.unobserve(sectionRef.current);
+      if (titleRef.current) titleObserver.unobserve(titleRef.current);
+    };
+  }, []);
 
   const frontendSkills = [
     { name: 'HTML/CSS', level: 89 },
@@ -29,7 +53,11 @@ const Skill = () => {
   ];
 
   const renderSkillBox = (skills, title) => (
-    <div className="p-8 rounded-xl shadow-lg w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-auto text-gray-200 bg-[#1b2a26] ml-0 lg:ml-[90px] mt-[-10px]">
+    <div
+      className={`p-8 rounded-xl shadow-lg w-[300px] sm:w-[400px] md:w-[500px] lg:w-[600px] h-auto text-gray-200 bg-[#1b2a26] ml-0 lg:ml-[90px] mt-[-10px] transition-all duration-700 ease-in-out ${
+        isSectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+      }`}
+    >
       <h2 className="text-2xl md:text-3xl font-bold mb-6 border-b-4 border-green-600 inline-block pb-1">
         {title} Skills
       </h2>
@@ -51,17 +79,22 @@ const Skill = () => {
       </ul>
     </div>
   );
-  
+
   return (
-    <div id="skills" className="w-full min-h-screen bg-[#0f1a17] py-12 px-4">
-       <div className="text-left pl-8 md:pl-20 mb-12 mt-[40px]">
+    <div id="skills" ref={sectionRef} className="w-full min-h-screen bg-[#0f1a17] py-12 px-4">
+      <div
+        ref={titleRef}
+        className={`text-left pl-8 md:pl-20 mb-12 mt-[40px] transform transition-all duration-1000 ease-in-out ${
+          isTitleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <p className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-200 leading-tight">
           Skill &<br className="hidden md:block" /> Proficiencies
         </p>
       </div>
-  
-       <div className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-20 mt-[160px] gap-10 lg:ml-[200px] ">
-         <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+
+      <div className="flex flex-col lg:flex-row justify-start items-start px-8 md:px-20 mt-[160px] gap-10 lg:ml-[200px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
           <button
             onClick={() => setSelectedSkill('Frontend')}
             className="border-2 border-green-600 h-[150px] w-[250px] hover:bg-green-800 bg-[#1a2c27] text-gray-200 transition rounded-lg flex flex-col justify-center items-center text-lg"
@@ -69,7 +102,7 @@ const Skill = () => {
             <i className="fa-solid fa-wand-magic-sparkles text-3xl mb-2"></i>
             Frontend
           </button>
-  
+
           <button
             onClick={() => setSelectedSkill('Backend')}
             className="border-2 border-green-600 h-[150px] w-[250px] hover:bg-green-800 bg-[#1a2c27] text-gray-200 transition rounded-lg flex flex-col justify-center items-center text-lg"
@@ -77,7 +110,7 @@ const Skill = () => {
             <i className="fa-solid fa-server text-3xl mb-2"></i>
             Backend
           </button>
-  
+
           <button
             onClick={() => setSelectedSkill('Tools')}
             className="border-2 border-green-600 h-[150px] w-[250px] hover:bg-green-800 bg-[#1a2c27] text-gray-200 transition rounded-lg flex flex-col justify-center items-center text-lg"
@@ -85,7 +118,7 @@ const Skill = () => {
             <i className="fa-solid fa-screwdriver-wrench text-3xl mb-2"></i>
             Tools
           </button>
-  
+
           <button
             onClick={() => setSelectedSkill('SoftSkills')}
             className="border-2 border-green-600 h-[150px] w-[250px] hover:bg-green-800 bg-[#1a2c27] text-gray-200 transition rounded-lg flex flex-col justify-center items-center text-lg"
@@ -94,8 +127,8 @@ const Skill = () => {
             Soft Skills
           </button>
         </div>
-  
-         <div className="mt-8 lg:mt-0">
+
+        <div className="mt-8 lg:mt-0">
           {selectedSkill === 'Frontend' && renderSkillBox(frontendSkills, 'Frontend')}
           {selectedSkill === 'Backend' && renderSkillBox(backendSkills, 'Backend')}
           {selectedSkill === 'Tools' && renderSkillBox(toolsSkills, 'Tools')}
@@ -104,8 +137,6 @@ const Skill = () => {
       </div>
     </div>
   );
-  
-
 };
 
 export default Skill;

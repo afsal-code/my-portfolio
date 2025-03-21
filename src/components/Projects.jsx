@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import tourism from '../assets/tourism.jpg';
 import ecommerce from '../assets/ecomerce.jpg';
 import registration from '../assets/registration.jpg';
 
 const Projects = () => {
+  const cardRefs = useRef([]);
+  const [visibleCards, setVisibleCards] = useState([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const updatedVisibleCards = [...visibleCards];
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.dataset.index);
+            updatedVisibleCards[index] = true;
+          } else {
+            const index = parseInt(entry.target.dataset.index);
+            updatedVisibleCards[index] = false;
+          }
+        });
+        setVisibleCards(updatedVisibleCards);
+      },
+      { threshold: 0.3 }
+    );
+
+    cardRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      cardRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, []);
+
   const projectList = [
     {
       title: 'Tourism Website',
@@ -20,11 +52,11 @@ const Projects = () => {
       codeLink: 'https://github.com/afsal-code/FetchApi-Demo',
     },
     {
-      title: 'Registration Site',
+      title: 'Multiverse-Character',
       description: 'A user registration and login system with form validation.',
       image: registration,
-      demoLink: 'https://your-demo-link.com',
-      codeLink: 'https://github.com/your-github-link',
+      demoLink: 'https://afsal-code.github.io/multiverse-character-viewer/',
+      codeLink: 'https://github.com/afsal-code/multiverse-character-viewer',
     },
   ];
 
@@ -34,11 +66,19 @@ const Projects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 px-10 mt-[100px]">
         {projectList.map((project, index) => (
-          <div
-          key={index}
-          className="bg-[#15231f] border border-[#2e4a44] p-6 rounded-xl shadow-md hover:shadow-[0_8px_30px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 duration-300 ease-in-out flex flex-col"
-        >
-        
+        <div
+        key={index}
+        data-index={index}
+        ref={(el) => (cardRefs.current[index] = el)}
+        className={`bg-[#15231f] border border-[#2e4a44] p-6 rounded-xl shadow-md transition-all duration-700 ease-out 
+          ${
+            visibleCards[index]
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-10 scale-90'
+          }
+          hover:shadow-[0_8px_30px_rgba(255,255,255,0.3)] hover:scale-105`}
+      >
+      
             <img
               src={project.image}
               alt={`${project.title} screenshot`}
@@ -63,17 +103,16 @@ const Projects = () => {
       </div>
 
       <div className="mt-12 flex justify-center">
-  <a
-    href="https://github.com/afsal-code?tab=repositories"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    <button className="bg-transparent border border-[#2e4a44] text-white px-6 py-2 rounded-full hover:bg-[#2e4a44] transition duration-300">
-      View All Projects
-    </button>
-  </a>
-</div>
-
+        <a
+          href="https://github.com/afsal-code?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="bg-transparent border border-[#2e4a44] text-white px-6 py-2 rounded-full hover:bg-[#2e4a44] transition duration-300 animate-pulse">
+            View All Projects
+          </button>
+        </a>
+      </div>
     </div>
   );
 };

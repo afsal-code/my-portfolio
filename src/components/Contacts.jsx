@@ -1,26 +1,26 @@
 import React, { useRef } from 'react';
-// import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
-//  emailjs.init('BqrcyIOV4NTe4iY1x');   
+ emailjs.init('BqrcyIOV4NTe4iY1x');   
 
 const Contacts = () => {
   const form = useRef();
 
-  // const sendEmail = (e) => {
-  //   e.preventDefault();
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-  //   emailjs.sendForm('service_49mypxb', 'template_uf2yd5v', form.current)
-  //     .then((result) => {
-  //       console.log('Email sent!', result.text);
-  //       alert('Message sent successfully!');
-  //       form.current.reset();
-  //     })
-  //     .catch((error) => {
-  //       console.error('Email send error:', error.text);
-  //       alert('Failed to send message. Please try again.');
-  //     });
-  // };
-    {/* ref={form} onSubmit={sendEmail}  */}
+    emailjs.sendForm('service_49mypxb', 'template_uf2yd5v', form.current)
+      .then((result) => {
+        console.log('Email sent!', result.text);
+        alert('Message sent successfully!');
+        form.current.reset();
+      })
+      .catch((error) => {
+        console.error('Email send error:', error.text);
+        alert('Failed to send message. Please try again.');
+      });
+  };
+ 
  
     return (
       <div id="contacts" className="w-full min-h-screen bg-[#0f1a17] text-white px-4 sm:px-10 py-10 flex items-center justify-center">
@@ -45,10 +45,9 @@ const Contacts = () => {
             </div>
           </div>
   
-          {/* Right Side Form */}
-          <div className="p-6 sm:p-10 bg-[#0f1a17] text-white flex flex-col justify-center border-t md:border-t-0 md:border-l border-[#2e4a44]">
+           <div className="p-6 sm:p-10 bg-[#0f1a17] text-white flex flex-col justify-center border-t md:border-t-0 md:border-l border-[#2e4a44]">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Write A Message</h2>
-            <form ref={form} className="flex flex-col gap-4">
+            <form ref={form} onSubmit={sendEmail}   className="flex flex-col gap-4">
               <input
                 type="text"
                 name="name"
