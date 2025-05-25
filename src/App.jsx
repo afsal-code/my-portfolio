@@ -9,7 +9,7 @@ import Skill from './components/Skill';
 import Projects from './components/Projects';
 import Contacts from './components/Contacts';
 import Footer from './components/Footer';
-
+// this are code
 function App() {
   const [count, setCount] = useState(0)
 
@@ -22,6 +22,7 @@ function App() {
       <Skill/>
       <Contacts/>
       <Footer/>
+     
  
     </>
   )
